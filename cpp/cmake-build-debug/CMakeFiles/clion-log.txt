@@ -1,4 +1,4 @@
-/Applications/IDE/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/Library/Developer/CommandLineTools/usr/bin/clang -DCMAKE_CXX_COMPILER=/Library/Developer/CommandLineTools/usr/bin/clang++ -G "CodeBlocks - Unix Makefiles" /Users/swk/Documents/happycoding/takeITeasy/cpp
+/Applications/IDE/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/Library/Developer/CommandLineTools/usr/bin/clang -DCMAKE_CXX_COMPILER=/Library/Developer/CommandLineTools/usr/bin/clang++ -DCPLUS_INCLUDE_PATH=/usr/local/include -DCPLUS_LIB_PATH=/usr/local/Cellar/ -G "CodeBlocks - Unix Makefiles" /Users/swk/Documents/happycoding/takeITeasy/cpp
 -- The C compiler identification is AppleClang 10.0.1.10010046
 -- The CXX compiler identification is AppleClang 10.0.1.10010046
 -- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/clang

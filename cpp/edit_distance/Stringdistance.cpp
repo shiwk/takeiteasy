@@ -3,11 +3,10 @@
 //
 
 #include "Stringdistance.h"
-#include <algorithm>    // std::min
-#include <iostream>
+#include <algorithm>
 
 namespace happycoding{
-    int Stringdistance::minDistance(string word1, string word2) {
+    int Stringdistance:: minDistance(string word1, string word2) {
         const int length1 = word1.size() + 1;
         const int length2 = word2.size() + 1;
 
@@ -21,11 +20,8 @@ namespace happycoding{
                         arr[i][j] = arr[i-1][j-1];
                     else
                         arr[i][j] = min(arr[i][j-1], min(arr[i-1][j], arr[i-1][j-1])) + 1;
-                }<
-
-                //cout << arr[i][j] << " ";
+                }
             }
-            //cout << endl;
         }
         return arr[length1 -1][length2 - 1];
     }

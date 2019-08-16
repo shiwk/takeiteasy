@@ -32,7 +32,6 @@ namespace happycoding{
         node->freq = freq;
         node->left = left;
         node->right = right;
-
         return node;
     }
 

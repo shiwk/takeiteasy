@@ -151,7 +151,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=happycoding
+CMAKE_PROJECT_NAME:STATIC=cpp
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/ranlib
@@ -212,14 +212,20 @@ CMAKE_STRIP:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/strip
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//No help, variable specified on the command line.
+CPLUS_INCLUDE_PATH:UNINITIALIZED=/usr/local/include
+
+//No help, variable specified on the command line.
+CPLUS_LIB_PATH:UNINITIALIZED=/usr/local/Cellar/
+
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/usr/sbin/sysctl
 
 //Value Computed by CMake
-happycoding_BINARY_DIR:STATIC=/Users/swk/Documents/happycoding/takeITeasy/cpp/cmake-build-debug
+cpp_BINARY_DIR:STATIC=/Users/swk/Documents/happycoding/takeITeasy/cpp/cmake-build-debug
 
 //Value Computed by CMake
-happycoding_SOURCE_DIR:STATIC=/Users/swk/Documents/happycoding/takeITeasy/cpp
+cpp_SOURCE_DIR:STATIC=/Users/swk/Documents/happycoding/takeITeasy/cpp
 
 
 ########################
