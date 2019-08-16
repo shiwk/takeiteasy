@@ -1,0 +1,5 @@
+# JetBrains Rider
+.idea/
+
+#cmake build
+cmake-build-debug/
