@@ -1,2 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/ar qc libMODULE.a  CMakeFiles/MODULE.dir/main.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib libMODULE.a

@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/clang++  -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/23birthday.dir/main.cpp.o CMakeFiles/23birthday.dir/__/map/linkmap.cpp.o  -o 23birthday 
