@@ -36,7 +36,6 @@ namespace happycoding{
     template <typename K, typename V>
     void linkmap<K,V>::add(node<K, V>* n) {
         int index = hash(n->k);
-//        std::cout << std::endl << "SHA" <<"(" << n->k << "): " << index << std::endl;
         if(count == 0)
         {
             head = n;

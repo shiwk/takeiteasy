@@ -14,12 +14,8 @@ using namespace std;
 template <typename T>
 struct Node
 {
-//    Node(const T c, const int f) :ch(c), freq(f){}
-//    Node(const int f) : freq(f){}
-
     T ch;
     int freq;
-
     Node<T> * left, * right;
 };
 
@@ -34,7 +30,5 @@ namespace happycoding{
         Node<T>* buildtree(string str);
     };
 }
-
-
 
 #endif //CPP_LTC_HUFFMAN_H

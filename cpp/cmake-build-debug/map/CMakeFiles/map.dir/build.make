@@ -94,7 +94,7 @@ map_EXTERNAL_OBJECTS =
 map/map: map/CMakeFiles/map.dir/linkmap.cpp.o
 map/map: map/CMakeFiles/map.dir/main.cpp.o
 map/map: map/CMakeFiles/map.dir/build.make
-map/map: /cryptopp/8.1.0/lib/libcryptopp.a
+map/map: /usr/local/Cellar/cryptopp/8.1.0/lib/libcryptopp.a
 map/map: map/CMakeFiles/map.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/swk/Documents/happycoding/takeITeasy/cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable map"
 	cd /Users/swk/Documents/happycoding/takeITeasy/cpp/cmake-build-debug/map && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/map.dir/link.txt --verbose=$(VERBOSE)

@@ -9,8 +9,6 @@
 using namespace std;
 using namespace CryptoPP;
 
-//string SHA256(string);
-
 int main () {
     const int size = SHA256::DIGESTSIZE;
     happycoding::linkmap<int, string> linkmap(size);
