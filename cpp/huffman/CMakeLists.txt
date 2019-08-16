@@ -1,0 +1,1 @@
+add_executable(${HUFFMAN} main.cpp huffman.cpp huffman.h)

@@ -1,0 +1,1 @@
+add_executable(${my_sort} main.cpp quicksort.cpp quicksort.h mergesort.cpp mergesort.h)

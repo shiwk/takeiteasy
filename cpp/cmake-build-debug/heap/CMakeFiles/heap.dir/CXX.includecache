@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/swk/Documents/happycoding/takeITeasy/cpp/heap/heap.hpp
+vector
+-
+
+/Users/swk/Documents/happycoding/takeITeasy/cpp/heap/main.cpp
+heap.hpp
+/Users/swk/Documents/happycoding/takeITeasy/cpp/heap/heap.hpp
+random
+-
+iostream
+-
+

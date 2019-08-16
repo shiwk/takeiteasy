@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/queue/arrayqueue.h
+
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/queue/loopqueue.h
+
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/queue/main.cpp
+iostream
+-
+arrayqueue.h
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/queue/arrayqueue.h
+loopqueue.h
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/queue/loopqueue.h
+

@@ -1,0 +1,1 @@
+add_executable(${STRING_DISTANCE_EXECUTABLE_NAME} main.cpp Stringdistance.cpp Stringdistance.h)

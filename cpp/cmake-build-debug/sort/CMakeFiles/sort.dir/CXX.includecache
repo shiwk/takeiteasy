@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/sort/main.cpp
+quicksort.h
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/sort/quicksort.h
+mergesort.h
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/sort/mergesort.h
+iostream
+-
+random
+-
+
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/sort/mergesort.h
+
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/sort/quicksort.h
+

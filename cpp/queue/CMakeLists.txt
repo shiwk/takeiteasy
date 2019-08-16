@@ -1,0 +1,1 @@
+add_executable(${my_queue} main.cpp arrayqueue.cpp loopqueue.cpp loopqueue.h)

@@ -1,0 +1,4 @@
+/Users/swk/Desktop/IDE/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/Library/Developer/CommandLineTools/usr/bin/clang -DCMAKE_CXX_COMPILER=/Library/Developer/CommandLineTools/usr/bin/clang++ -G "CodeBlocks - Unix Makefiles" /Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/huffman
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/huffman/cmake-build-debug

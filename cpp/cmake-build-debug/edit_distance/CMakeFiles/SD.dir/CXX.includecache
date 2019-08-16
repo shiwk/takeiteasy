@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/edit_distance/Stringdistance.cpp
+Stringdistance.h
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/edit_distance/Stringdistance.h
+algorithm
+-
+iostream
+-
+
+/Users/swk/Documents/happycoding/happy_cpp/cpp-ltc/edit_distance/Stringdistance.h
+string
+-
+
