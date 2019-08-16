@@ -13,7 +13,7 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" GENERATION_OPTIONS="-DCPLUS_INCLUDE_PATH=/usr/local/include -DCPLUS_LIB_PATH=/usr/local/Cellar/" />
     </configurations>
   </component>
   <component name="ChangeListManager">
@@ -104,7 +104,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1565938590705</updated>
-      <workItem from="1565938591969" duration="306000" />
+      <workItem from="1565938591969" duration="590000" />
     </task>
     <servers />
   </component>
