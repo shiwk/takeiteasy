@@ -1,0 +1,1 @@
+add_executable(${23BIRTHDAY} main.cpp ../map/linkmap.cpp ../map/linkmap.h)
