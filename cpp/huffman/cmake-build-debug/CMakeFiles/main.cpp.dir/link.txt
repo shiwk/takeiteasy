@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/clang++  -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/main.cpp.dir/huffman.cpp.o  -o main.cpp 
