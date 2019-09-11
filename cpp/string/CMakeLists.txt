@@ -1,0 +1,1 @@
+add_executable(${my_string} stringmatch.h main.cpp bfmatch.cpp rkmatch.cpp bmmatch.cpp)
