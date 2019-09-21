@@ -88,7 +88,7 @@ int main(){
     std::cout<< testBmMatch(text, textSize, pattern1, patternSize1) <<std::endl;
 
     const unsigned int patternSize2 = 2;
-    char pattern2 [patternSize2] = { '2', '2'};
+    char pattern2 [patternSize2] = { '1', '3'};
     std::cout<< testBmMatch(text, textSize, pattern2, patternSize2) <<std::endl;
 
     const unsigned int patternSize3 = 3;

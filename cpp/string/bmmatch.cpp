@@ -40,11 +40,9 @@ namespace happycoding{
 
                     if (isMatched) {
                         suffix[l] = i;
-//                        std::cout<< "suffix["<<l<<"] = "<< suffix[l]<<std::endl;
                         if (i == 0)
                         {
                             prefix[l] = true;
-//                            std::cout<< "prefix["<<l<<"] = "<< prefix[l]<<std::endl;
                         }
                     }
                 }
@@ -73,18 +71,21 @@ namespace happycoding{
                         int suffixMatchingPosition = suffix[l];
                         if(suffixMatchingPosition != -1)
                         {
-                            offset2 = std::min(offset2, i + 1 - suffixMatchingPosition);
+                            offset2 = std::max(offset2, i + 1 - suffixMatchingPosition);
                         }
-                        int t = i + 1;
-                        while(t < patternSize)
+                        if (offset2 == 1)
                         {
-                            if (prefix[patternSize - t])
+                            int t = i + 1;
+                            while(t < patternSize)
                             {
-                                offset2 = std::min(offset2, t);
-                                break;
+                                if (prefix[patternSize - t])
+                                {
+                                    offset2 = std::min(offset2, t);
+                                    break;
+                                }
+                                else
+                                    t++;
                             }
-                            else
-                                t++;
                         }
                     }
                     k += offset2;
