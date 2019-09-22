@@ -1,0 +1,1 @@
+add_executable(${my_trie} Strtrie.cpp Strtrie.h main.cpp)

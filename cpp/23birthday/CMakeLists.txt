@@ -1,1 +1,1 @@
-add_executable(${23BIRTHDAY} main.cpp ../map/linkmap.cpp ../map/linkmap.h ../string/stringmatch.h)
+add_executable(${23BIRTHDAY} main.cpp ../map/linkmap.cpp ../map/linkmap.h ../string/stringmatch.h ../trie/Strtrie.cpp ../trie/Strtrie.h ../trie/main.cpp)
