@@ -1,5 +1,5 @@
 # JetBrains CLion
-.idea/*
+.idea/
 
 #cmake build
 cmake-build-debug/
