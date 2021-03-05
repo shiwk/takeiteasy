@@ -3,7 +3,8 @@
 //
 
 #include "FindRepeated.hpp"
-#include <vector>
+#include "ReplaceWhitespace.hpp"
+#include "LinkList.hpp"
 #include <iostream>
 using namespace std;
 void findRepeated(){
@@ -12,6 +13,27 @@ void findRepeated(){
     cout<<find_repeated.find(arr);
 }
 
+void replaceWhitespace(){
+    string str("hell  o");
+    ReplaceWhiteSpace rw;
+    cout<<rw.replaceSpace(str);
+}
+
+void ReverseLinkList(){
+    ListNode node1(1);
+    ListNode node2(2);
+    node1.next = &node2;
+    ListNode node3(3);
+    node2.next = &node3;
+    ListNode node4(4);
+    node3.next = &node4;
+
+    LinkList ll;
+    vector<int> res = ll.printListFromTailToHead2(&node1);
+    for (auto i:res) {
+        cout<<i<<endl;
+    }
+}
 int main(){
-    findRepeated();
+    ReverseLinkList();
 }
