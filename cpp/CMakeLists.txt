@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 project(cpp)
-#add_compile_options(-fno-elide-constructors)
 
 set(CMAKE_CXX_STANDARD 11)
 set( STRING_DISTANCE_EXECUTABLE_NAME SD )

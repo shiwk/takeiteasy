@@ -35,7 +35,6 @@ public:
         if (size_ >= realloc_size_) {
             realloc();
         }
-
     }
 
     void pop() {

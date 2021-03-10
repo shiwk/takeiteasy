@@ -12,7 +12,7 @@ public:
     static int staticField;
 };
 
-int OOA::staticField = 1;
+//int OOA::staticField = 1;
 
 class OObject {
 public:
@@ -103,6 +103,9 @@ public:
     }
 
     char* Get() const{return c_;}
+//    void* operator new(size_t t) = delete;
+    void* operator new(size_t, const char*);
+    void operator delete (void *);
 
     explicit operator char*();
     explicit operator int();
@@ -126,6 +129,16 @@ void String::operator++ (int) {
     *c_ = (*c_)++;
 }
 
+void *String::operator new(size_t t, const char*c) {
+    std::cout<< "Overloading new operator with size: " << t <<std::endl;
+    return ::new String(c);
+}
+
+void String::operator delete(void *p) {
+    std::cout<< "Overloading delete operator " << std::endl;
+    free(p);
+}
+
 String operator+(const String &str1, const String &str2)
 {
     String s;
@@ -136,4 +149,5 @@ String operator+(const String &str1, const String &str2)
     return s;
 }
 
+//void* String::operator new(size_t t)=delete;
 #endif //CPP_OOBJECT_HPP

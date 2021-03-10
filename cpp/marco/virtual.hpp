@@ -10,7 +10,7 @@
 struct A {
     virtual void f() { std::cout << "A\n"; }
 
-    virtual void f0() { std::cout << "A->f0\n"; }
+    virtual void f0() const{ std::cout << "A->f0\n"; }
 
     int a = 1;
 
@@ -34,7 +34,7 @@ struct A {
 struct B : public A {
     void f() override { std::cout << "B\n"; }
 
-    virtual void f0() { std::cout << "B->f0\n"; }
+    virtual void f0() const override{ std::cout << "B->f0\n"; }
 
     int a = 2;
 

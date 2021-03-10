@@ -10,6 +10,9 @@
 
 #include <iostream>
 
+extern int Static_A;
+auto Statcic_B = Static_A; // dynamic initialized
+
 class Marco{
 public:
     void funcMarco();

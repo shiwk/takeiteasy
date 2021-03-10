@@ -14,6 +14,8 @@
 #include <iostream>
 #include <exception>
 #include <string>
+#include "dummy.hpp"
+#include "nrvo.hpp"
 
 void point() {
     int i = 100;
@@ -140,15 +142,14 @@ void testOObject() {
     s2.Print();
 
     s1.Print(String("edf"));
-    String s3(std::move((String("zzz"))));
+    String s3((String("zzz")));
     String s4(String("123"));
     s4.Print();
     s3.Print();
 
     String s5;
     s5 = s3.Me();
-    String s6;
-    s6 = std::move(String("qqq"));
+    String s6 = std::move(String("qqq"));
 
     char *c1 = static_cast<char*>(s5);
     int i1 = static_cast<int>(s5);
@@ -160,6 +161,14 @@ void testOObject() {
 
     String s7 = s5  + s6;
     s7.Print();
+
+    String *s8 = ::new String();
+    delete s8;
+    String *s9 = new ("qqq")String("abc");
+    s9->Print();
+    delete s9;
+
+    String &s10 =s3;
 }
 
 void testUniversal() {
@@ -195,10 +204,26 @@ void testUniversal() {
     ur.withForward(std::move(i4));
 }
 
+void testCallStack(){
+    func(1,2);
+}
+
+
+void testNrvo()
+{
+    cout << "*** 1 ***" << endl;
+    auto obj1 = simple();
+    cout << "*** 2 ***" << endl;
+    auto obj2 = simple_with_move();
+    cout << "*** 3 ***" << endl;
+    auto obj3 = complicated(42);
+    cout << "*** end ***" << endl;
+
+}
 
 int main() {
     try {
-        testVirtual();
+        testNrvo();
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
