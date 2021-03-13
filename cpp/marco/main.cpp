@@ -16,6 +16,7 @@
 #include <string>
 #include "dummy.hpp"
 #include "nrvo.hpp"
+#include "share_ptr.hpp"
 
 void point() {
     int i = 100;
@@ -36,55 +37,70 @@ void testSizeOf() {
 void testVirtual() {
     B b;
     A &aa = b;
-    aa.f0();
+    aa.f0(0);
     A a1 = b;
-    a1.f0();
-    a1.print();
+    a1.f0(1);
+    a1.print(2);
 
     A *a = &b;
-    a->f0();
-    a->print();
-    a->fun(1);
-    b.fun("cc");
-    a->fun1(1);
-    b.fun1("cc");
+    a->f(1); // b
+    a->f0(1); // a
+    a->print(2); // a
+    a->fun(3); // a
+    b.fun("cc"); // b
+    a->fun1(2); // a
+    b.fun1("cc"); //b
 
-    std:: cout<<"=========="<<std::endl;
+    std::cout << "==========" << std::endl;
     A *a2 = &a1;
-    a2->print();
-    B *b2 = (B*)a2;
-    b2->f0();
-    b2->print();
-    B *bb =&b;
-    A *a3 = dynamic_cast<A *>(bb);
-    std::cout<<a3<<std::endl;
-    std::cout<<bb<<std::endl;
+    a2->print(3); //a
+    //B *b2 = dynamic_cast<B *>(a2); // downcasting returns 0
+//    b2->f0(4);
+//    b2->print(5);
+    B *bb = &b;
+    A *a3 = dynamic_cast<A *>(bb); // upcasting is ok
+    std::cout << a3 << std::endl;
+    std::cout << bb << std::endl;
 
-    a3->f0();
-    a3->print();
+    a3->f(5); // b
+    a3->f0(6); // a
+    a3->print(7); //a
 
     A a4;
-    B *b3 = dynamic_cast<B*>(&a4);// b3 is NULL
-    std::cout<<b3<<std::endl; // 0x0
+    B *b3 = dynamic_cast<B *>(&a4);// b3 is NULL
+    std::cout << b3 << std::endl; // 0x0
 
-    B* b5 = (B*)(&a4);
+    B *b5 = (B *) (&a4);
     b5->fun1("cc");
 
-    auto a5 = dynamic_cast<A*>(bb);
-    std:: cout<<"=========="<<std::endl;
+    std::cout << "==========" << std::endl;
+    C c;
+    A *ca =&c;
+    B *cb = dynamic_cast<B *>(ca);
+    cb->f(7);
+    cb->f0(7);
+    cb->print(7);
 
-    b.f0();
-    b.A::f0();
+    C *bc = dynamic_cast<C*>(&a4);// bc is NULL
+    std::cout << bc << std::endl; // 0x0
 
-    b.print();
-    b.A::print();
+    std::cout << "==========" << std::endl;
+
+    b.f0(8);
+    b.A::f0(9);
+
+    b.f(8);
+    b.A::f(9);
+
+    b.print(10);
+    b.A::print(11);
     B *b1 = &b;
+    b1->print(12);
+    std::cout << "==========" << std::endl;
 
-    b1->print();
-    std:: cout<<"=========="<<std::endl;
-
-    std::cout<< typeid(a5).name()<<std::endl;
-    std::cout<< typeid(b).name()<<std::endl;
+    auto a5 = dynamic_cast<A *>(a);
+    std::cout << typeid(a5).name() << std::endl;
+    std::cout << typeid(b).name() << std::endl;
 }
 
 void testVector() {
@@ -151,24 +167,24 @@ void testOObject() {
     s5 = s3.Me();
     String s6 = std::move(String("qqq"));
 
-    char *c1 = static_cast<char*>(s5);
+    char *c1 = static_cast<char *>(s5);
     int i1 = static_cast<int>(s5);
-    int i2 =(int) s5;
+    int i2 = (int) s5;
     ++s5;
     s5.Print();
     s5++;
     s5.Print();
 
-    String s7 = s5  + s6;
+    String s7 = s5 + s6;
     s7.Print();
 
     String *s8 = ::new String();
-    delete s8;
-    String *s9 = new ("qqq")String("abc");
+    String::operator delete(s8, "abc");
+    String *s9 = new("qqq")String("abc");
     s9->Print();
-    delete s9;
+    String::operator delete(s9, "zx");
 
-    String &s10 =s3;
+    String &s10 = s3;
 }
 
 void testUniversal() {
@@ -204,13 +220,12 @@ void testUniversal() {
     ur.withForward(std::move(i4));
 }
 
-void testCallStack(){
-    func(1,2);
+void testCallStack() {
+    func(1, 2);
 }
 
 
-void testNrvo()
-{
+void testNrvo() {
     cout << "*** 1 ***" << endl;
     auto obj1 = simple();
     cout << "*** 2 ***" << endl;
@@ -221,9 +236,32 @@ void testNrvo()
 
 }
 
+void sharePtrTest() {
+    shared_ptr<Node<int>> sp1(new Node<int>(1));
+    shared_ptr<Node<int>> sp2(new Node<int>(2));
+
+    cout << "sp1.use_count:" << sp1.use_count() << endl;
+    cout << "sp2.use_count:" << sp2.use_count() << endl;
+
+    sp1->_pNext = sp2; //sp2 ptr count +1
+    cout << "sp1.use_count:" << sp1.use_count() << endl;
+    cout << "sp2.use_count:" << sp2.use_count() << endl;
+
+    sp2->_pPre = sp1; //sp1 ptr count +1
+    cout << "sp1.use_count:" << sp1.use_count() << endl;
+    cout << "sp2.use_count:" << sp2.use_count() << endl;
+}
+
+void offsetofObject() {
+    cout << offsetof(StructS, x) << endl; // 0
+    cout << offsetof(StructS, y) << endl; // 4
+    cout << offsetof(StructS, z) << endl; // 8
+    cout << offsetof(StructS, a) << endl; // 12
+}
+
 int main() {
     try {
-        testNrvo();
+        testVirtual();
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }

@@ -46,6 +46,13 @@ class ChildE : public ChildA, ChildB{
     virtual void foo(){}
 };
 
+struct  StructS
+{
+    int x;
+    char y;
+    int z;
+    double a;
+};
 
 class SizeOf {
 public:

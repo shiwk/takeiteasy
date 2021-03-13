@@ -8,22 +8,22 @@
 #include <iostream>
 
 struct A {
-    virtual void f() { std::cout << "A\n"; }
+    virtual void f(int i) { std::cout << "A->f: "<< i << std::endl; }
 
-    virtual void f0() const{ std::cout << "A->f0\n"; }
+    virtual void f0(int i) const{ std::cout << "A->f0: "<< i << std::endl; }
 
     int a = 1;
 
-    void print() {
-        std::cout << "A -> print" << std::endl;
+    void print(int i) {
+        std::cout << "A -> print: "<< i << std::endl;
     }
 
-    virtual void fun(int a) {
-        std::cout << "A->fun" << std::endl;
+    virtual void fun(int i) {
+        std::cout << "A->fun: " << i<< std::endl;
     }
 
-    void fun1(int a) {
-        std::cout << "A->fun1" << std::endl;
+    void fun1(int i) {
+        std::cout << "A->fun1: "<< i << std::endl;
     }
 //    A() { this->f(); }
 //
@@ -32,26 +32,33 @@ struct A {
 
 
 struct B : public A {
-    void f() override { std::cout << "B\n"; }
+    void f(int i) override { std::cout << "B->f: "<< i << std::endl; }
 
-    virtual void f0() const override{ std::cout << "B->f0\n"; }
+    virtual void f0(int i) { std::cout << "B->f0: "<< i << std::endl; }
 
     int a = 2;
 
     virtual void fun(char *a) {
-        std::cout << "B->fun" << std::endl;
+        std::cout << "B->fun:" << a <<std::endl;
     }
 
-    void print() {
-        std::cout << "B -> print" << std::endl;
+    void print(int i) {
+        std::cout << "B -> print: "<< i << std::endl;
     }
 
     void fun1(const char *a) {
-        std::cout << "B ->fun1" << std::endl;
+        std::cout << "B ->fun1: " <<a<< std::endl;
+    }
+    void fun2(const char *a) {
+        std::cout << "B ->fun1: " <<a<< std::endl;
     }
 //    B() { this->f(); }
 //
 //    ~B() { this->f(); }
+};
+
+struct C: public B{
+    void f(int i) override { std::cout << "C->f: "<< i << std::endl; }
 };
 
 #endif //CPP_VIRTUAL_HPP

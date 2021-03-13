@@ -9,7 +9,7 @@ int duplicate(int n)
     return n * 2;
 }
 
-auto Static_A = duplicate(7); // A is dynamic-initialized
+//auto Static_A = duplicate(7); // A is dynamic-initialized
 
 int& Static_func_A()
 {

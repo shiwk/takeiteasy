@@ -104,13 +104,15 @@ public:
 
     char* Get() const{return c_;}
 //    void* operator new(size_t t) = delete;
-    void* operator new(size_t, const char*);
-    void operator delete (void *);
 
     explicit operator char*();
     explicit operator int();
     void operator++();
     void operator++(int);
+
+//private:
+    void* operator new(size_t, const char*);
+    void operator delete (void *, const char*);
 };
 
 String::operator char*(){
@@ -134,10 +136,11 @@ void *String::operator new(size_t t, const char*c) {
     return ::new String(c);
 }
 
-void String::operator delete(void *p) {
-    std::cout<< "Overloading delete operator " << std::endl;
+void String::operator delete(void *p, const char *c) {
+    std::cout<< "Overloading delete operator " <<c<< std::endl;
     free(p);
 }
+
 
 String operator+(const String &str1, const String &str2)
 {

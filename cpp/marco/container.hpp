@@ -5,7 +5,6 @@
 #ifndef CPP_STACK_HPP
 #define CPP_STACK_HPP
 
-#include <cstddef>
 #include <algorithm>
 #include <stack>
 #include <iostream>
@@ -21,6 +20,11 @@ public:
 };
 
 template<typename T>
+void Container<T>::push(const T &){
+    std::cout<< "base push"<< std::endl;
+}
+
+template<typename T>
 class Stack : public Container<T> {
 public:
     Stack() {
@@ -30,6 +34,7 @@ public:
     ~Stack(){delete begin_;}
 
     void push(const T &t) override {
+        this->Container<T>::push(t);
         *(begin_ + size_++) = t;
 
         if (size_ >= realloc_size_) {
