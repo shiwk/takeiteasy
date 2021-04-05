@@ -13,7 +13,7 @@ namespace happycoding{
                 return -1;
             unsigned long long h = hash(pattern, 0, patternSize);
             for (unsigned int i = 0; i < textSize - patternSize + 1; ++i) {
-                if (hash(text, i, i + patternSize) == h)
+                if (hash(text, i, i     + patternSize) == h)
                 {
                     bool isMatched = true;
                     for (unsigned int j = 0; j < patternSize; ++j) {

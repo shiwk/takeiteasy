@@ -17,12 +17,17 @@
 #include "dummy.hpp"
 #include "nrvo.hpp"
 #include "share_ptr.hpp"
+#include "container_char.hpp"
 
 void point() {
     int i = 100;
     Pointer p(&i);
     std::cout << &p << std::endl;
     p.TestThisPointer();
+
+    int &j = i;
+//    const int &k = i;
+    const int &k = 100;
 }
 
 void testSizeOf() {
@@ -43,6 +48,7 @@ void testVirtual() {
     a1.print(2);
 
     A *a = &b;
+
     a->f(1); // b
     a->f0(1); // a
     a->print(2); // a
@@ -59,6 +65,7 @@ void testVirtual() {
 //    b2->print(5);
     B *bb = &b;
     A *a3 = dynamic_cast<A *>(bb); // upcasting is ok
+
     std::cout << a3 << std::endl;
     std::cout << bb << std::endl;
 
@@ -75,13 +82,13 @@ void testVirtual() {
 
     std::cout << "==========" << std::endl;
     C c;
-    A *ca =&c;
+    A *ca = &c;
     B *cb = dynamic_cast<B *>(ca);
     cb->f(7);
     cb->f0(7);
     cb->print(7);
 
-    C *bc = dynamic_cast<C*>(&a4);// bc is NULL
+    C *bc = dynamic_cast<C *>(&a4);// bc is NULL
     std::cout << bc << std::endl; // 0x0
 
     std::cout << "==========" << std::endl;
@@ -101,6 +108,51 @@ void testVirtual() {
     auto a5 = dynamic_cast<A *>(a);
     std::cout << typeid(a5).name() << std::endl;
     std::cout << typeid(b).name() << std::endl;
+
+    E e;
+    e.f(10);
+    e.C::f(10);
+    e.D::f(10);
+    B *ae = dynamic_cast<D *>(&e);
+    ae->f(10);
+
+    C *cc = dynamic_cast<C *>(&e); //
+    std::cout << "cc :" << cc << std::endl;
+
+    EE *ee = new EE();
+    cc = dynamic_cast<C *>(ee);
+    std::cout << "cc :" << cc << std::endl;
+
+    FF ff;
+    FF *ffp = &ff;
+    C *cffp = &ff;
+    std::cout << ffp << std::endl;
+    std::cout << cffp << std::endl;
+
+//    GGG *ggg  = dynamic_cast<GGG*>(ff); //FF' is not polymorphic
+//    std::cout << "ff :" << ff << std::endl;
+
+
+    std::cout << "==========" << std::endl;
+    HHHH h;
+    std::cout << "==========" << std::endl;
+
+    std::cout << "A size: " << sizeof(A) << std::endl;
+    std::cout << "B size: " << sizeof(B) << std::endl;
+    std::cout << "C size: " << sizeof(C) << std::endl;
+    std::cout << "D size: " << sizeof(D) << std::endl;
+    std::cout << "E size: " << sizeof(E) << std::endl;
+    std::cout << "EE size: " << sizeof(EE) << std::endl;
+    std::cout << "F size: " << sizeof(F) << std::endl;
+    std::cout << "FF size: " << sizeof(FF) << std::endl;
+    std::cout << "G size: " << sizeof(G) << std::endl;
+    std::cout << "GG size: " << sizeof(GG) << std::endl;
+    std::cout << "GGG size: " << sizeof(GGG) << std::endl;
+    std::cout << "H size: " << sizeof(H) << std::endl;
+    std::cout << "HH size: " << sizeof(HH) << std::endl;
+    std::cout << "HHH size: " << sizeof(HHH) << std::endl;
+    std::cout << "HHHH size: " << sizeof(HHHH) << std::endl;
+
 }
 
 void testVector() {
@@ -145,6 +197,14 @@ void TestStack() {
         s.pop();
         std::cout << "size: " << s.size() << std::endl;
     }
+
+    CharStack<char> cs;
+    cs.push('c');
+    cout << "char stack size: " << cs.size();
+
+//    CharStack<int> cs1; // link error, since CharStack<int> not defined symbols
+//    cs1.push(1);
+//    cout<<"char stack size: " << cs.size();
 };
 
 
@@ -158,6 +218,8 @@ void testOObject() {
     s2.Print();
 
     s1.Print(String("edf"));
+    String str("ppp");
+    s1.Print(str);
     String s3((String("zzz")));
     String s4(String("123"));
     s4.Print();
@@ -180,11 +242,23 @@ void testOObject() {
 
     String *s8 = ::new String();
     String::operator delete(s8, "abc");
-    String *s9 = new("qqq")String("abc");
+    String *s9 = new String("abc");
+    cout << "s9[0] = " << (*s9)[0] << endl;
     s9->Print();
+    s7->TestStaticField();
     String::operator delete(s9, "zx");
 
     String &s10 = s3;
+    cout<< "&s10: " <<&s10<<endl;
+    cout<< "&s5: " <<&s5<<endl;
+    s10.Print();
+    s5.Print();
+
+    s10 = s5;
+    cout<< "&s10: " <<&s10<<endl;
+    cout<< "&s5: " <<&s5<<endl;
+    s10.Print();
+    s5.Print();
 }
 
 void testUniversal() {
@@ -218,6 +292,26 @@ void testUniversal() {
     const int i4 = 15;
     ur.withForward(i4);
     ur.withForward(std::move(i4));
+}
+
+void testVfptr() {
+    Y y;
+    Y *yy = &y;
+    X *xy = yy;
+    typedef void(*P)();
+    cout << yy << endl;
+    cout << (&y) + 8 << endl;
+    cout << xy << endl;
+    cout << &(xy->x) << endl;
+//    cout << *(long int *) (yy) << endl;
+//    cout<<*(long int *) (x + 8)<<endl;
+//    cout << *(long int *) (yy) + 8 << endl;
+
+    ((P) (*(long int *) *(long int *) (yy)))();
+    ((P) (*((long int *) *(long int *) (yy) + 1)))();
+    ((P) (*(long int *) (*(long int *) (yy) + 8)))();
+
+    ((P) (*(long int *) *(long int *) (xy)))();
 }
 
 void testCallStack() {
@@ -261,7 +355,7 @@ void offsetofObject() {
 
 int main() {
     try {
-        testVirtual();
+        testOObject();
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }

@@ -7,8 +7,11 @@
 #include "ReplaceWhitespace.hpp"
 #include "LinkList.hpp"
 #include "MinNumberInRotateArray.hpp"
-#include "Queue.hpp"
+#include "SimpleQueue.hpp"
 #include "HasPath.hpp"
+#include "CutRope.hpp"
+#include "MinCost.hpp"
+#include "AL.hpp"
 #include <iostream>
 
 using namespace std;
@@ -49,7 +52,7 @@ void reconstructTree() {
 }
 
 void testStackQueue() {
-    Queue queue;
+    SimpleQueue queue;
     queue.push(1);
     queue.push(2);
     cout << queue.pop() << endl;
@@ -73,6 +76,152 @@ void hasPath() {
     cout << has_path.hasPath(matrix, 3, 4, str);
 }
 
+void cutRope() {
+    CutRope cut_rope;
+    cout << cut_rope.cutRope(15) << endl;
+}
+
+void minCost() {
+    MinCost min_cost;
+    string str = "aaabbbabbbb";
+
+    vector<int> cost = {3, 5, 10, 7, 5, 3, 5, 5, 4, 8, 1};
+    cout << min_cost.minCost(str, cost) << endl;
+}
+
+void minSetSize() {
+    vector<int> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    MinSetSize min_set_size;
+    cout << min_set_size.minSetSize(arr) << endl;
+    cout << pow(2, 3);
+}
+
+void regExMatch() {
+    RegExMatch reg_ex_match;
+    cout << reg_ex_match.match("ab", ".*c");
+}
+
+void lexicalOrder() {
+    LexicalOrder lexical_order;
+    vector<int> res = lexical_order.lexicalOrder(13);
+    for (int i:res) {
+        cout << i << endl;
+    }
+}
+
+void maxPathSum() {
+    TreeNode *left = new TreeNode(-1);
+    TreeNode *right = new TreeNode(3);
+    TreeNode *root = new TreeNode(-2, left, nullptr);
+
+    MaxPathSum max_path_sum;
+    cout << max_path_sum.maxPathSum(root);
+}
+
+
+void minStack() {
+    MinStack min_stack;
+    min_stack.push(1);
+    min_stack.push(2);
+    min_stack.push(3);
+    cout << min_stack.getMin() << endl;
+    min_stack.push(4);
+    min_stack.push(5);
+    min_stack.push(6);
+    min_stack.push(7);
+    min_stack.push(8);
+    cout << min_stack.top() << endl;
+    min_stack.push(9);
+}
+
+
+void findKth() {
+    vector<int> nums = {3,2,3,1,2,4,5,5,6};
+    FindKth find_kth;
+    cout << find_kth.findKthLargest(nums, 4);
+}
+
+void medianFinder() {
+    MedianFinder median_finder;
+    median_finder.addNum(1);
+    median_finder.addNum(2);
+    median_finder.addNum(3);
+    cout << median_finder.findMedian();
+}
+
+void checkSubArray() {
+    CheckSubarraySum check_subarray_sum;
+    vector<int> nums{23, 2, 4, 6, 7};
+    cout << check_subarray_sum.checkSubarraySum(nums, -6);
+}
+
+void numberOf1() {
+    NumberOf1 number_of_1;
+    cout << number_of_1.NumberOf1Between1AndN_Solution(100);
+};
+
+void inversePairs() {
+    InversePairsCount inverse_pairs_count;
+    cout << inverse_pairs_count.InversePairs({1, 2, 3, 4, 5, 6, 7, 0});
+}
+
+void KInversePairs() {
+    class KInversePairs k_inverse_pairs;
+    cout << k_inverse_pairs.kInversePairs(1000, 1000);
+}
+
+void GetNumberOfK(){
+    GetNumberOfKInSorted get_number_of_k_in_sorted;
+    cout << get_number_of_k_in_sorted.GetNumberOfK({1,2,2,3,3,3,4,5}, 6);
+}
+
+void FirstMissingPositive(){
+    class FirstMissingPositive first_missing_positive;
+    vector<int> nums{3,4,-1,1};
+    cout << first_missing_positive.firstMissingPositive(nums);
+}
+
+void CombinationSum3(){
+    class CombinationSum3 combination_sum_3;
+    auto res = combination_sum_3.combinationSum3(9,45);
+    for (const auto& nums : res)
+    {
+        for (int num: nums) {
+            cout << num<< " ";
+        }
+        cout <<endl;
+    }
+}
+
+void MaxSlidingWindow(){
+    class MaxSlidingWindow max_sliding_window;
+    vector<int> nums{1,3,-1,-3,5,3,6,7};
+    vector<int> res = max_sliding_window.maxSlidingWindow(nums,3);
+    for(int i :res)
+        cout<< i<<" ";
+}
+
+void MinWindow(){
+    class MinWindow min_window;
+    cout<<min_window.minWindow("ADOBECODEBANC","ABC");
+}
+
+void MinOperations(){
+    class MinOperations min_operations;
+//    vector<int> nums1{1,2,3,4,5,6}, nums2{1,1,2,2,2,2};
+    vector<int> nums1{1,1,1,1,1,1,1}, nums2{6};
+//    vector<int> nums1{5,6,4,3,1,2}, nums2{6,3,3,1,4,5,3,4,1,3,4};
+
+    cout << min_operations.minOperations(nums1, nums2);
+}
+
+void LowestCommonAncestor(){
+    class LowestCommonAncestor lowest_common_ancestor;
+    TreeNode* left = new TreeNode(5);
+    TreeNode* right = new TreeNode(1);
+    TreeNode* root = new TreeNode(3, left, right);
+    lowest_common_ancestor.lowestCommonAncestor(root, left,right);
+}
 int main() {
-    hasPath();
+    LowestCommonAncestor();
 }

@@ -2,12 +2,12 @@
 // Created by shiwk on 2021/3/9.
 //
 
-#ifndef CPP_QUEUE_HPP
-#define CPP_QUEUE_HPP
+#ifndef CPP_SIMPLEQUEUE_HPP
+#define CPP_SIMPLEQUEUE_HPP
 #include <stack>
 #include <exception>
 using namespace std;
-class Queue{
+class SimpleQueue{
 public:
     void push(int node) {
         stack1.push(node);
@@ -36,4 +36,4 @@ private:
     stack<int> stack2;
 };
 
-#endif //CPP_QUEUE_HPP
+#endif //CPP_SIMPLEQUEUE_HPP

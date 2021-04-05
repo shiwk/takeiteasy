@@ -9,7 +9,7 @@
 
 class OOA {
 public:
-    static int staticField;
+    const static int staticField = 1; // should be defined out of line, if non-const static
 };
 
 //int OOA::staticField = 1;
@@ -98,24 +98,44 @@ public:
         std::cout << c_ << std::endl;
     }
 
-    void Write(const char * c){
+    void Print(const String &string) {
+        std::cout << "const String reference! ";
+        int len = strlen(string.c_);
+        c_ = new char[len];
+        strcpy(c_, string.c_);
+        std::cout << c_ << std::endl;
+    }
+
+
+    void Write(const char *c) {
         strcpy(c_, c);
     }
 
-    char* Get() const{return c_;}
+    char *Get() const { return c_; }
 //    void* operator new(size_t t) = delete;
 
-    explicit operator char*();
+    explicit operator char *();
+
     explicit operator int();
+
     void operator++();
+
     void operator++(int);
 
 //private:
+    void *operator new(size_t);
+
     void* operator new(size_t, const char*);
-    void operator delete (void *, const char*);
+
+    void operator delete(void *, const char *);
+    void operator delete(void *);
+
+    char &operator[](int offset);
+
+    OObject *operator->(); // for member access, not overload on pointer
 };
 
-String::operator char*(){
+String::operator char *() {
     return c_;
 }
 
@@ -127,8 +147,13 @@ void String::operator++() {
     *c_ = ++(*c_);
 }
 
-void String::operator++ (int) {
+void String::operator++(int) {
     *c_ = (*c_)++;
+}
+
+void *String::operator new(size_t t) {
+    std::cout << "Overloading new operator with size: " << t << std::endl;
+    return ::new String();
 }
 
 void *String::operator new(size_t t, const char*c) {
@@ -137,17 +162,29 @@ void *String::operator new(size_t t, const char*c) {
 }
 
 void String::operator delete(void *p, const char *c) {
-    std::cout<< "Overloading delete operator " <<c<< std::endl;
+    std::cout << "Overloading delete operator " << c << std::endl;
     free(p);
 }
 
+void String::operator delete(void *p) {
+    std::cout << "Overloading delete operator " << std::endl;
+    free(p);
+}
 
-String operator+(const String &str1, const String &str2)
-{
+OObject *String::operator->() {
+    return new OObject;
+}
+
+char &String::operator[](int offset) {
+    return c_[offset];
+}
+
+
+String operator+(const String &str1, const String &str2) {
     String s;
-    char*c = new char[strlen(str1.Get())+strlen(str2.Get())+1];
+    char *c = new char[strlen(str1.Get()) + strlen(str2.Get()) + 1];
     strcpy(c, str1.Get());
-    strcpy(c+strlen(str1.Get()), str2.Get());
+    strcpy(c + strlen(str1.Get()), str2.Get());
     s.Write(c);
     return s;
 }

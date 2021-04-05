@@ -7,7 +7,7 @@
 
 #include <stack>
 
-struct ListNode {
+struct  ListNode {
     int val;
     ListNode *next;
 
