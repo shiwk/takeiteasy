@@ -32,7 +32,8 @@ private:
             while (!m_pool->m_shutdown) {
                 {
                     std::unique_lock<std::mutex> lock(m_pool->m_conditional_mutex);
-                        m_pool->m_conditional_lock.wait(lock, [m_pool](){return !m_pool->m_queue.empty()});
+                    if (m_pool->m_queue.empty()) {
+                        m_pool->m_conditional_lock.wait(lock, [m_pool](){return });
                     }
                     dequeued = m_pool->m_queue.dequeue(func);
                 }
