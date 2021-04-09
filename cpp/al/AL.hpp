@@ -1502,11 +1502,11 @@ public:
     TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q) {
         bool foundP = false;
         bool foundQ = false;
-        TreeNode *ancestor =findTwo(root, p, q, foundP, foundQ);
+        TreeNode *ancestor = findTwo(root, p, q, foundP, foundQ);
         return ancestor;
     }
 
-    TreeNode * findTwo(TreeNode *root, TreeNode *p, TreeNode *q, bool &foundP, bool &foundQ) {
+    TreeNode *findTwo(TreeNode *root, TreeNode *p, TreeNode *q, bool &foundP, bool &foundQ) {
         if (!root)
             return nullptr;
 
@@ -1535,13 +1535,13 @@ public:
 
 class ShortestPathLength {
 public:
-    struct entry{
+    struct entry {
         int node;
         int cover;
         int length;
     };
 
-    int shortestPathLength(vector<vector<int>>& graph) {
+    int shortestPathLength(vector<vector<int>> &graph) {
         queue<entry> q;
         vector<vector<int>> m((1 << graph.size()), vector<int>(graph.size(), INT32_MAX));
         for (int i = 0; i < graph.size(); ++i) {
@@ -1549,14 +1549,13 @@ public:
             m[1 << i][i] = 0;
         }
 
-        while (!q.empty())
-        {
+        while (!q.empty()) {
             entry e = q.front();
             if (e.cover == (1 << graph.size()) - 1)
                 return e.length;
             for (int i : graph[e.node]) {
                 int cover = e.cover | 1 << i;
-                if(m[cover][i] <= e.length + 1)
+                if (m[cover][i] <= e.length + 1)
                     continue;
                 m[cover][i] = e.length + 1;
                 entry nei{i, cover, e.length + 1};
@@ -1567,6 +1566,103 @@ public:
 
         return -1;
     }
+};
+
+class MaxProfit {
+public:
+//    int maxProfit(vector<int>& prices) {
+//        int min = INT32_MAX;
+//        int res = 0;
+//        for(int p :prices)
+//        {
+//            res = res == 0 && p < min ? 0 : (p - min) > res ? (p - min): res;
+//            min = p <min? p : min;
+//        }
+//        return res;
+//    }
+
+//    int maxProfit(vector<int> &prices) {
+//        int cost = 0;
+//        int res = 0;
+//        for (int i = 0; i < prices.size(); ++i) {
+//            if (i == prices.size() - 1) {
+//                if (res >0)
+//                    res += prices[i] - cost;
+//                return res;
+//            }
+//
+//            if (prices[i] < prices[i + 1]) {
+//                if (cost == 0)
+//                    cost = prices[i];
+//                continue;
+//            }
+//
+//            if (prices[i] > prices[i + 1]) {
+//                if (cost > 0) {
+//                    cost = 0;
+//                    res += prices[i] - cost;
+//                }
+//                continue;
+//            }
+//        }
+//        return res;
+//    }
+
+    int maxProfit(vector<int> &prices) {
+        int min = INT32_MAX;
+        int max = 0;
+        int leftMax = 0;
+        vector<int> leftProfits(prices.size());
+        vector<int> rightProfits(prices.size());
+        int rightMax = 0;
+        for (int i = 0; i < prices.size() ; ++i) {
+            int left = prices[i] - min;
+            min = min < prices[i] ? min : prices[i];
+            leftMax = leftMax > left ? leftMax : left;
+            leftProfits[i] = leftMax;
+
+            int r = prices[prices.size() - 1 - i];
+            int right = max - r;
+            max = max > r ? max : r;
+            rightMax = rightMax > right ? rightMax : right;
+            rightProfits[prices.size() - 1 - i] = rightMax;
+        }
+
+        int res = 0;
+        for (int i = 0; i < prices.size(); ++i) {
+            int tmp = leftProfits[i] + (i < prices.size() -1 ? rightProfits[i + 1] : 0);
+            res = res > tmp ? res : tmp;
+        }
+
+        return res;
+    }
+
+    int maxProfit(int k, vector<int>& prices) {
+        int res = 0;
+        vector<vector<vector<int>>> dp(prices.size(), vector<vector<int>> (k + 1, vector<int>(2)));
+        for (int i = 0; i < prices.size(); ++i) {
+            for (int j = 0; j <= min(i/2 + 1, k); ++j) {
+                if (i == 0 || j == 0)
+                {
+                    dp[i][j][0] = 0;
+                    dp[i][j][1] = 0 - prices[i];
+                    continue;
+                }
+
+                if (j > min((i-1)/2 + 1, k))
+                    dp[i][j][1] = dp[i-1][j-1][0] - prices[i];
+                else{
+                    dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j][1] + prices[i]);
+                    dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j-1][0] - prices[i]);
+
+                    res = res > dp[i][j][0] ? res : dp[i][j][0];
+                }
+            }
+        }
+
+        return res;
+    }
+
 };
 
 #endif //CPP_AL_HPP

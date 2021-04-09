@@ -3,26 +3,21 @@
 //
 
 #include <stdio.h>
-#include <string>
 #include <unistd.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <libc.h>
 #include <sys/time.h>
 #include <stdlib.h>
 #include <iostream>
 #include <future>
 #include <poll.h>
-#include <vector>
 #include <unordered_map>
 
 #define PORT 1234
 #define BACKLOG 5
 #define MAXDATASIZE 1000
 typedef struct CLIENT {
-//    pollfd fd;
     char *name;
     struct sockaddr_in addr;
     char *data;
@@ -32,7 +27,7 @@ void process_cli(struct CLIENT *client, char *recvbuf, int len, char*, int&);
 
 void savedata(char *recvbuf, int len, char *data);
 
-void main_loop(int);
+[[noreturn]] void main_loop(int);
 
 int main() {
     int sockfd;
@@ -73,16 +68,16 @@ int main() {
         exit(1);
     }
 
-    main_loop(sockfd);
+//    main_loop(sockfd);
     std::future<void> loop = std::async(std::launch::async, main_loop, sockfd);
+    loop.wait();
+    std::cout<< "Server shutdown"<<std::endl;
     close(sockfd);
 }
 
-void main_loop(int serverSockfd) {
+[[noreturn]] void main_loop(int serverSockfd) {
     std::unordered_map<int, struct CLIENT> clients(FD_SETSIZE);
     uint32_t sin_size = sizeof(struct sockaddr_in);
-    /*初始化select */
-    int maxfd = serverSockfd;
     int maxi = -1;
     int i;
     pollfd pollfds[FD_SETSIZE];
@@ -93,16 +88,8 @@ void main_loop(int serverSockfd) {
     pollfds[0].fd = serverSockfd;
     pollfds[0].events = POLLIN;
 
-//    fd_set rset, allset;
-//    FD_ZERO(&allset);
-//    FD_SET(serverSockfd, &allset);
-
     int nready;
-    while (1) {
-//        rset = allset;
-//        nready = select(maxfd + 1, &rset, nullptr, nullptr, nullptr);
-
-        // negative timeout means infinite timeout
+    while (true) {
         nready = poll(pollfds, FD_SETSIZE, -1);
 
         if (pollfds[0].revents & POLLIN) {
@@ -113,7 +100,6 @@ void main_loop(int serverSockfd) {
                 perror("accept() error\n");
                 continue;
             }
-            /* 将新的FD放入客户端 */
             for (i = 0; i < FD_SETSIZE; i++)
                 if (pollfds[i].fd < 0) {
                     pollfds[i].fd = connectfd;
@@ -132,20 +118,16 @@ void main_loop(int serverSockfd) {
                     break;
                 }
             if (i == FD_SETSIZE) printf("too many clients\n");
-//            FD_SET(connectfd, &allset);
-//            if (connectfd > maxfd) maxfd = connectfd;
             if (i > maxi) maxi = i;
-            if (--nready <= 0) continue;    /* 没有更多可读的描述符 */
+            if (--nready <= 0) continue;
         }
 
         for (i = 1; i <= maxi; i++) {
-//            pollfd clientFd{};
             if (pollfds[i].fd < 0) continue;
             if (pollfds[i].revents & POLLIN) {
                 ssize_t n;
                 char recvbuf[MAXDATASIZE];
                 if ((n = recv(pollfds[i].fd, recvbuf, MAXDATASIZE, 0)) == 0) {
-                    /*连接被客户端关闭 */
                     close(pollfds[i].fd);
                     struct CLIENT client = clients[pollfds[i].fd];
                     printf("Client( %s ) closed connection. User's data: %s\n", client.name, client.data);

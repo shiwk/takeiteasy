@@ -54,9 +54,6 @@ public:
         std::cout << c_ << std::endl;
     }
 
-//
-//
-    //
     String &operator=(const String &string) {
         if (this == &string) // handle self-assigment!!
             return *this;

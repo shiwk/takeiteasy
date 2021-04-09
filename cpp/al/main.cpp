@@ -136,7 +136,7 @@ void minStack() {
 
 
 void findKth() {
-    vector<int> nums = {3,2,3,1,2,4,5,5,6};
+    vector<int> nums = {3, 2, 3, 1, 2, 4, 5, 5, 6};
     FindKth find_kth;
     cout << find_kth.findKthLargest(nums, 4);
 }
@@ -170,58 +170,64 @@ void KInversePairs() {
     cout << k_inverse_pairs.kInversePairs(1000, 1000);
 }
 
-void GetNumberOfK(){
+void GetNumberOfK() {
     GetNumberOfKInSorted get_number_of_k_in_sorted;
-    cout << get_number_of_k_in_sorted.GetNumberOfK({1,2,2,3,3,3,4,5}, 6);
+    cout << get_number_of_k_in_sorted.GetNumberOfK({1, 2, 2, 3, 3, 3, 4, 5}, 6);
 }
 
-void FirstMissingPositive(){
+void FirstMissingPositive() {
     class FirstMissingPositive first_missing_positive;
-    vector<int> nums{3,4,-1,1};
+    vector<int> nums{3, 4, -1, 1};
     cout << first_missing_positive.firstMissingPositive(nums);
 }
 
-void CombinationSum3(){
+void CombinationSum3() {
     class CombinationSum3 combination_sum_3;
-    auto res = combination_sum_3.combinationSum3(9,45);
-    for (const auto& nums : res)
-    {
+    auto res = combination_sum_3.combinationSum3(9, 45);
+    for (const auto &nums : res) {
         for (int num: nums) {
-            cout << num<< " ";
+            cout << num << " ";
         }
-        cout <<endl;
+        cout << endl;
     }
 }
 
-void MaxSlidingWindow(){
+void MaxSlidingWindow() {
     class MaxSlidingWindow max_sliding_window;
-    vector<int> nums{1,3,-1,-3,5,3,6,7};
-    vector<int> res = max_sliding_window.maxSlidingWindow(nums,3);
-    for(int i :res)
-        cout<< i<<" ";
+    vector<int> nums{1, 3, -1, -3, 5, 3, 6, 7};
+    vector<int> res = max_sliding_window.maxSlidingWindow(nums, 3);
+    for (int i :res)
+        cout << i << " ";
 }
 
-void MinWindow(){
+void MinWindow() {
     class MinWindow min_window;
-    cout<<min_window.minWindow("ADOBECODEBANC","ABC");
+    cout << min_window.minWindow("ADOBECODEBANC", "ABC");
 }
 
-void MinOperations(){
+void MinOperations() {
     class MinOperations min_operations;
 //    vector<int> nums1{1,2,3,4,5,6}, nums2{1,1,2,2,2,2};
-    vector<int> nums1{1,1,1,1,1,1,1}, nums2{6};
+    vector<int> nums1{1, 1, 1, 1, 1, 1, 1}, nums2{6};
 //    vector<int> nums1{5,6,4,3,1,2}, nums2{6,3,3,1,4,5,3,4,1,3,4};
 
     cout << min_operations.minOperations(nums1, nums2);
 }
 
-void LowestCommonAncestor(){
+void LowestCommonAncestor() {
     class LowestCommonAncestor lowest_common_ancestor;
-    TreeNode* left = new TreeNode(5);
-    TreeNode* right = new TreeNode(1);
-    TreeNode* root = new TreeNode(3, left, right);
-    lowest_common_ancestor.lowestCommonAncestor(root, left,right);
+    TreeNode *left = new TreeNode(5);
+    TreeNode *right = new TreeNode(1);
+    TreeNode *root = new TreeNode(3, left, right);
+    lowest_common_ancestor.lowestCommonAncestor(root, left, right);
 }
+
+void MaxProfit() {
+    class MaxProfit max_profit;
+    vector<int> nums{3,2,6,5,0,3};
+    cout<<max_profit.maxProfit(2,nums);
+}
+
 int main() {
-    LowestCommonAncestor();
+    MaxProfit();
 }
