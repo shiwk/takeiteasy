@@ -6,18 +6,29 @@
 #define CPP_OOBJECT_HPP
 
 #include <iostream>
+#include <mutex>
 
-class OOA {
+struct OOA {
 public:
     const static int staticField = 1; // should be defined out of line, if non-const static
+    static int staticField2; // should be defined out of line, if non-const static
+//    static std::mutex staticField3; // should be defined out of line, if non-const static
+    void TestStatic(){
+        // !! TestStatic link will fail if staic fields not defined
+        int i = staticField;
+        int j = staticField2;
+//        std::unique_lock<std::mutex> lock(staticField3);
+    }
 };
 
-//int OOA::staticField = 1;
+int OOA::staticField2 = 1;
 
 class OObject {
 public:
     void TestStaticField() {
         std::cout << OOA::staticField << std::endl;
+        OOA ooa;
+        ooa.TestStatic();
     }
 };
 

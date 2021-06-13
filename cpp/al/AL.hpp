@@ -1615,7 +1615,7 @@ public:
         vector<int> leftProfits(prices.size());
         vector<int> rightProfits(prices.size());
         int rightMax = 0;
-        for (int i = 0; i < prices.size() ; ++i) {
+        for (int i = 0; i < prices.size(); ++i) {
             int left = prices[i] - min;
             min = min < prices[i] ? min : prices[i];
             leftMax = leftMax > left ? leftMax : left;
@@ -1630,30 +1630,29 @@ public:
 
         int res = 0;
         for (int i = 0; i < prices.size(); ++i) {
-            int tmp = leftProfits[i] + (i < prices.size() -1 ? rightProfits[i + 1] : 0);
+            int tmp = leftProfits[i] + (i < prices.size() - 1 ? rightProfits[i + 1] : 0);
             res = res > tmp ? res : tmp;
         }
 
         return res;
     }
 
-    int maxProfit(int k, vector<int>& prices) {
+    int maxProfit(int k, vector<int> &prices) {
         int res = 0;
-        vector<vector<vector<int>>> dp(prices.size(), vector<vector<int>> (k + 1, vector<int>(2)));
+        vector<vector<vector<int>>> dp(prices.size(), vector<vector<int>>(k + 1, vector<int>(2)));
         for (int i = 0; i < prices.size(); ++i) {
-            for (int j = 0; j <= min(i/2 + 1, k); ++j) {
-                if (i == 0 || j == 0)
-                {
+            for (int j = 0; j <= min(i / 2 + 1, k); ++j) {
+                if (i == 0 || j == 0) {
                     dp[i][j][0] = 0;
                     dp[i][j][1] = 0 - prices[i];
                     continue;
                 }
 
-                if (j > min((i-1)/2 + 1, k))
-                    dp[i][j][1] = dp[i-1][j-1][0] - prices[i];
-                else{
-                    dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j][1] + prices[i]);
-                    dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j-1][0] - prices[i]);
+                if (j > min((i - 1) / 2 + 1, k))
+                    dp[i][j][1] = dp[i - 1][j - 1][0] - prices[i];
+                else {
+                    dp[i][j][0] = max(dp[i - 1][j][0], dp[i - 1][j][1] + prices[i]);
+                    dp[i][j][1] = max(dp[i - 1][j][1], dp[i - 1][j - 1][0] - prices[i]);
 
                     res = res > dp[i][j][0] ? res : dp[i][j][0];
                 }
@@ -1663,6 +1662,662 @@ public:
         return res;
     }
 
+};
+
+class IPToInt {
+public:
+    int covert(char *ip) {
+        int length = 0;
+        while (ip[length] != '\0') { length++; }
+
+        int dotCount = 0;
+        int tmpNumber = 0;
+        int tmpDcim = 0;
+        int res = 0;
+        for (int i = length - 1; i >= 0; i--) {
+            if (ip[i] == '.') {
+                if (tmpNumber == 0)
+                    return -1; // 123..255...
+                if (dotCount >= 3)
+                    return -1; // 123.123.123.123.123
+                res += tmpDcim * pow(256, dotCount);
+                dotCount++;
+                tmpNumber = 0;
+                tmpDcim = 0;
+            } else if (ip[i] < '0' || ip[i] > '9') {
+                return -1; // abc.***...
+            }
+
+            if (tmpNumber >= 3)
+                return -1;
+
+            tmpDcim = (ip[i] - '0') * pow(10, tmpNumber) + tmpDcim;
+            if (tmpDcim >= 256)
+                return -1; // 789.***...
+
+            tmpNumber++;
+        }
+
+        if (dotCount > 3)
+            return -1; // 123.123.123.123.123
+        return res;
+    }
+};
+
+class ThreeSum {
+public:
+    vector<vector<int>> threeSum(vector<int> &nums) {
+        vector<vector<int>> res;
+        if (nums.size() < 3)
+            return res;
+        sort(nums.begin(), nums.end());
+        int first = 0;
+        while (first < nums.size() - 2) {
+            if (first > 0 && nums[first] == nums[first - 1]) {
+                first++;
+                continue;
+            }
+
+            int second = first + 1;
+            int third = nums.size() - 1;
+
+            while (second < third) {
+                int sum = nums[first] + nums[second] + nums[third];
+                if (sum == 0) {
+                    res.push_back({nums[first], nums[second], nums[third]});
+                }
+                if (sum >= 0) {
+                    third--;
+                    while (second < third && nums[third] == nums[third + 1])
+                        third--;
+                }
+                if (sum <= 0) {
+                    second++;
+                    while (second < third && nums[second] == nums[second - 1])
+                        second++;
+                }
+            }
+
+            first++;
+        }
+
+        return res;
+
+    }
+};
+
+class ThreeSumClosest {
+public:
+    int threeSumClosest(vector<int> &nums, int target) {
+        int absDiff = INT32_MAX;
+        sort(nums.begin(), nums.end());
+
+        int res = 0;
+        int first = 0;
+        while (first < nums.size() - 2) {
+            if (first > 0 && nums[first] == nums[first - 1]) {
+                first++;
+                continue;
+            }
+
+            int second = first + 1;
+            int third = nums.size() - 1;
+            while (second < third) {
+                int r = nums[first] + nums[second] + nums[third];
+                int absR = abs(r - target);
+                if (absR < absDiff) {
+                    absDiff = absR;
+                    res = r;
+                }
+
+                if (r == target)
+                    return target;
+
+
+                if (r < target) {
+                    second++;
+                    while (second < third && nums[second] == nums[second - 1])
+                        second++;
+                }
+                if (r > target) {
+                    third--;
+                    while (second < third && nums[third] == nums[third + 1])
+                        third--;
+                }
+            }
+
+            first++;
+        }
+
+        return res;
+    }
+};
+
+class ReorderList {
+public:
+    void reorderList(ListNode *head) {
+        deque<ListNode *> dq;
+        ListNode *p = head;
+        while (p) {
+            dq.push_back(p);
+            p = p->next;
+        }
+
+        ListNode dummy(0);
+        ListNode *q = &dummy;
+        bool front = true;
+        while (!dq.empty()) {
+            q->next = front ? dq.front() : dq.back();
+            q = q->next;
+            if (front)
+                dq.pop_front();
+            else
+                dq.pop_back();
+            front = !front;
+        }
+        q->next = nullptr;
+    }
+};
+
+
+class MinDistance {
+public:
+    int minDistance(string word1, string word2) {
+        int length1 = word1.length();
+        int length2 = word2.length();
+
+        vector<vector<int>> arr(length1 + 1, vector<int>(length2 + 1));
+
+        for (int i = 0; i <= length1; ++i) {
+            for (int j = 0; j <= length2; ++j) {
+                if (i == 0 || j == 0) {
+                    arr[i][j] = i | j;
+                    continue;
+                }
+                if (word1[i - 1] == word2[j - 1])
+                    arr[i][j] = arr[i - 1][j - 1];
+                else
+                    arr[i][j] = min(arr[i][j - 1], min(arr[i - 1][j], arr[i - 1][j - 1])) + 1;
+            }
+        }
+
+        return arr[length1][length2];
+    }
+};
+
+class DetectCycle {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *p = head, *q = head;
+        while (p && p->next) {
+            p = p->next->next;
+            q = q->next;
+
+            if (p == q)
+                break;
+        }
+
+        if (!p || !p->next)
+            return nullptr;
+
+        int circleLength = 0;
+        do {
+            circleLength++;
+            p = p->next->next;
+            q = q->next;
+        } while (p != q);
+
+        p = head, q = head;
+        int i = 0;
+        while (i++ < circleLength) {
+            p = p->next;
+        }
+
+        while (p != q) {
+            p = p->next;
+            q = q->next;
+        }
+
+        return p;
+    }
+};
+
+
+class LengthOfLIS {
+public:
+    int lengthOfLIS(vector<int> &nums) {
+        if (nums.empty())
+            return 0;
+
+        vector<int> lengthArr(nums.size(), 1);
+        int res = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (nums[i] > nums[j]) {
+                    lengthArr[i] = max(lengthArr[i], lengthArr[j] + 1);
+                }
+            }
+            res = max(lengthArr[i], res);
+        }
+
+        return res;
+    }
+};
+
+class IncreasingTriplet {
+public:
+    bool increasingTriplet(vector<int> &nums) {
+        int minFirst = INT32_MAX;
+        int minSecond = INT32_MAX;
+
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[i] > minSecond)
+                return true;
+            minFirst = min(minFirst, nums[i]);
+            minSecond = nums[i] > minFirst && nums[i] < minSecond ? nums[i] : minSecond;
+        }
+
+        return false;
+    }
+};
+
+struct item {
+    int id;
+    int val;
+    int count;
+
+    bool operator<(const item &i) const {
+        return count < i.count || count == i.count && id < i.id;
+    }
+};
+
+class FreqStack {
+public:
+    FreqStack() {
+        push_times_ = 0;
+    }
+
+    void push(int val) {
+        q_.push({++push_times_, val, ++count_[val]});
+    }
+
+    int pop() {
+        int r = q_.top().val;
+        q_.pop();
+        count_[r]--;
+        return r;
+    }
+
+private:
+    int push_times_;
+    unordered_map<int, int> count_;
+    priority_queue<item, vector<item>, std::less<item>> q_;
+};
+
+
+class Subsets {
+public:
+    vector<vector<int>> subsets(vector<int> &nums) {
+        vector<vector<int>> res;
+        vector<vector<int>> index;
+
+        index.emplace_back(vector<int>{-1});
+        res.emplace_back(vector<int>{});
+        int i = 0;
+        while (i < index.size()) {
+            for (int j = index[i].back() + 1; j < nums.size(); j++) {
+                vector<int> cur = res[i];
+                cur.push_back(nums[j]);
+                res.push_back({cur});
+
+                vector<int> cur_index = index[i];
+                cur_index.push_back(j);
+                index.push_back(cur_index);
+            }
+
+            if (index[i].back() >= nums.size() - 1) {
+                i++;
+                continue;
+            }
+
+            i++;
+        }
+
+        return res;
+    }
+};
+
+class Search {
+public:
+//    int search(vector<int> &nums, int target) {
+//        int start = 0;
+//        int end = nums.size() - 1;
+//
+//        while (start <= end) {
+//            int mid = (start + end) >> 1;
+//            if (nums[mid] >= nums[0]) {
+//                start = mid + 1;
+//                continue;
+//            } else if (nums[mid] < nums[0]) {
+//                end = mid - 1;
+//                continue;
+//            }
+//        }
+//        int firstDecreasing = end;
+//        if (target > nums[0])
+//            return binarySearch(nums, target, 0, end);
+//        else if (target < nums[0])
+//            return binarySearch(nums, target, end + 1, nums.size() - 1);
+//        return 0;
+//    }
+
+    bool search(vector<int> &nums, int target) {
+        int start = 0, end = nums.size() - 1;
+
+        while (start <= end) {
+            int mid = (start + end) >> 1;
+            if (nums[mid] >= nums[0]) {
+                start = mid + 1;
+                continue;
+            } else if (nums[mid] < nums[0]) {
+                end = mid - 1;
+                continue;
+            }
+        }
+        if (end == nums.size() - 1 && nums[end] == nums[0]) {
+            start = 0, end = nums.size() - 1;
+
+            while (start <= end) {
+                int mid = (start + end) >> 1;
+                if (nums[mid] > nums[0]) {
+                    start = mid + 1;
+                    continue;
+                } else if (nums[mid] <= nums[0]) {
+                    end = mid - 1;
+                    continue;
+                }
+            }
+        }
+
+        if (end == -1)
+            return target == nums[0];
+        int firstDecreasing = end;
+
+        if (target > nums[0])
+            return binarySearch(nums, target, 0, firstDecreasing) >= 0;
+        else if (target < nums[0])
+            return binarySearch(nums, target, firstDecreasing + 1, nums.size() - 1) >= 0;
+        return true;
+    }
+
+    int binarySearch(vector<int> &nums, int target, int start, int end) {
+        if (start >= nums.size() || end <= 0)
+            return -1;
+
+        while (start <= end) {
+            int mid = (start + end) >> 1;
+            if (nums[mid] == target)
+                return mid;
+            if (nums[mid] > target) {
+                end = mid - 1;
+                continue;
+            }
+            if (nums[mid] < target) {
+                start = mid + 1;
+                continue;
+            }
+        }
+        return -1;
+    }
+};
+
+class LongestValidParentheses {
+public:
+    int longestValidParentheses(string s) {
+        int res = 0;
+        int dp[s.length()];
+        for (int i = 0; i < s.length(); ++i) {
+            if (s[i] == '(')
+                dp[i] = 0;
+            else {
+                if (i == 0)
+                    dp[i] = 0;
+                else {
+                    int matched = i - dp[i - 1] - 1;
+                    if (matched < 0 || s[matched] == ')')
+                        dp[i] = 0;
+                    else if (matched == 0 || s[matched - 1] == '(')
+                        dp[i] = dp[i - 1] + 2;
+                    else
+                        dp[i] = dp[matched - 1] + dp[i - 1] + 2;
+                }
+            }
+
+            res = max(res, dp[i]);
+        }
+
+        return res;
+    }
+};
+
+class NextPermutation {
+public:
+
+    void nextPermutation(vector<int> &nums) {
+        int i = nums.size() - 2;
+        for (; i >= 0; --i) {
+            if (nums[i] < nums[i + 1])
+                break;
+        }
+
+        int re_start = 0;
+        if (i != -1) {
+            int key = nums[i];
+            int s = i + 1;
+            int e = nums.size() - 1;
+            while (s <= e) {
+                int mid = (s + e) >> 1;
+                if (nums[mid] <= key) {
+                    e = mid - 1;
+                } else {
+                    s = mid + 1;
+                }
+            }
+
+            swap(nums[i], nums[e]);
+            re_start = e;
+        }
+
+        std::reverse(nums.begin() + i + 1, nums.end());
+    }
+};
+
+class NumIslands {
+public:
+    int numIslands(vector<vector<char>> &grid) {
+        unordered_map<int, bool> visited;
+        int row = grid.size();
+        int col = grid.front().size();
+        int res = 0;
+        for (int i = 0; i < row; ++i) {
+            for (int j = 0; j < col; ++j) {
+                if (grid[i][j] == '1' && visited.find(i * col + j) == visited.end()) {
+                    res++;
+                    int index = i * col + j;
+                    visited[index] = true;
+
+                    queue<int> q;
+                    q.push(index);
+                    while (!q.empty()) {
+                        int f = q.front();
+                        int r = f / col;
+                        int c = f % col;
+                        if (isNotVisted(r, c - 1, row, col, visited)) {
+                            int left = f - 1;
+                            visited[left] = true;
+                            if (grid[r][c - 1] == '1')
+                                q.push(left);
+                        }
+                        if (isNotVisted(r, c + 1, row, col, visited)) {
+                            int right = f + 1;
+                            visited[right] = true;
+                            if (grid[r][c + 1] == '1')
+                                q.push(right);
+                        }
+                        if (isNotVisted(r - 1, c, row, col, visited)) {
+                            int up = f - col;
+                            visited[up] = true;
+                            if (grid[r - 1][c] == '1')
+                                q.push(up);
+                        }
+                        if (isNotVisted(r + 1, c, row, col, visited)) {
+                            int down = f + col;
+                            visited[down] = true;
+                            if (grid[r + 1][c] == '1')
+                                q.push(down);
+                        }
+                        q.pop();
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    bool isNotVisted(int r, int c, int row, int col, unordered_map<int, bool> &m) {
+        return r >= 0 && r < row && c >= 0 && c < col && m.find(r * col + c) == m.end();
+    }
+};
+
+class ReverseBetween {
+public:
+    ListNode *reverseBetween(ListNode *head, int left, int right) {
+        ListNode dummy(-1);
+        dummy.next = head;
+        ListNode *pre = &dummy;
+        ListNode *p = head;
+        ListNode *next = head ->next;
+
+        int i = 1;
+        while (i != left)
+        {
+            i++;
+            pre = p;
+            p = next;
+            next = next->next;
+        }
+
+        ListNode *oldLeft = p, *tmpLeft = p;
+        while (i <= right){
+            p -> next = tmpLeft;
+            tmpLeft = p;
+            p = next;
+            next = next ? next ->next : nullptr;
+            i++;
+        }
+
+        oldLeft->next = p;
+        pre->next = tmpLeft;
+
+        return dummy.next;
+    }
+};
+
+
+class MaximumSwap {
+public:
+    int maximumSwap(int num) {
+        if (num <= 10)
+            return num;
+        vector<int> nums;
+        while (num != 0)
+        {
+            nums.push_back(num % 10);
+            num/=10;
+        }
+
+        std::reverse(nums.begin(), nums.end());
+        int found = -1;
+        int toBeRpelaced = -1;
+        for (int i = 1; i < nums.size(); ++i) {
+            int n = nums[i];
+            if (n < nums[i-1]) {
+                continue;
+            }
+
+            if (found > 0 && n < nums[found])
+            {
+                continue;
+            }
+            int j = toBeRpelaced >= 0 ? toBeRpelaced : i - 1;
+            for (; j >=0 ; --j) {
+                if (n <= nums[j])
+                    break;
+            }
+
+            if (nums[j+1] < nums[i]) {
+                toBeRpelaced = j + 1;
+                found = i;
+            }
+        }
+        if (found > 0)
+            swap(nums[found], nums[toBeRpelaced]);
+
+        int res =0;
+        for (int i = 0; i < nums.size(); ++i) {
+            res+= nums[i]*pow(10, nums.size() - 1 - i);
+        }
+
+        return res;
+    }
+};
+
+class FindPeakElement {
+public:
+    int findPeakElement(vector<int>& nums) {
+        if (nums.size() == 1)
+            return 0;
+        int start = 0;
+        int end = nums.size() - 1;
+
+        while (true){
+            int mid = (start +end) >> 1;
+            bool greaterThanLeft = mid == 0 || nums[mid] > nums[mid - 1];
+            bool greaterThanRight = mid == nums.size() || nums[mid] > nums[mid + 1];
+            if (greaterThanLeft && greaterThanRight)
+                return mid;
+
+            if (!greaterThanLeft)
+                end = mid - 1;
+
+            if (!greaterThanRight)
+                start = mid +1;
+        }
+        return -1;
+    }
+};
+
+class Rand10 {
+public:
+    int rand10() {
+        while (true)
+        {
+            int t = rand7();
+            int d = 8;
+            while (d > 5)
+                d = rand7();
+            int start = 0;
+            if (t < 4)
+                return 1 + d % 5;
+            else if (t >4)
+                return 6 + d % 5;
+            else
+                continue;
+        }
+        return 0;
+    }
+
+    int rand7();
 };
 
 #endif //CPP_AL_HPP

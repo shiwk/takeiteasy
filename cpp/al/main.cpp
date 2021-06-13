@@ -224,10 +224,64 @@ void LowestCommonAncestor() {
 
 void MaxProfit() {
     class MaxProfit max_profit;
-    vector<int> nums{3,2,6,5,0,3};
-    cout<<max_profit.maxProfit(2,nums);
+    vector<int> nums{3, 2, 6, 5, 0, 3};
+    cout << max_profit.maxProfit(2, nums);
 }
 
+void IPToInt() {
+    class IPToInt ip_to_int;
+    cout << ip_to_int.covert("11.1.1");
+}
+
+void ThreeSumClosest() {
+    class ThreeSumClosest three_sum_closest;
+    vector<int> nums = {-55, -24, -18, -11, -7, -3, 4, 5, 6, 9, 11, 23, 33};
+    cout << three_sum_closest.threeSumClosest(nums, 0);
+}
+
+void ReorderList() {
+    class ReorderList reorder_list;
+    ListNode l1(1);
+    ListNode l2(2);
+    ListNode l3(3);
+    ListNode l4(4);
+    l1.next = &l2;
+    l2.next = &l3;
+    l3.next = &l4;
+    reorder_list.reorderList(&l1);
+    ListNode *l = &l1;
+    while (l) {
+        cout << l->val << endl;
+        l = l->next;
+    }
+}
+
+void Search() {
+    class Search search;
+    vector<int> nums{2, 5, 6, 0, 0, 1, 2};
+    cout << search.search(nums, 0);
+}
+
+void NextPermutation() {
+    class NextPermutation next_permutation;
+    vector<int> nums{1, 3, 2};
+
+    next_permutation.nextPermutation(nums);
+    for (int i: nums)
+        cout << i << endl;
+}
+
+
 int main() {
-    MaxProfit();
+    string str;
+    cin>>str;
+    cout << "str: "<< str <<endl;
+
+    int a;
+    cin >> a;
+    cout << "a: "<< a <<endl;
+
+    int b;
+    cin >> b;
+    cout << "b: "<< b <<endl;
 }

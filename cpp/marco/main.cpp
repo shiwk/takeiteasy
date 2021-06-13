@@ -318,6 +318,20 @@ void testCallStack() {
     func(1, 2);
 }
 
+void testStringEqual(){
+    char*c1 = new char[3];
+    char*c2 = new char[3];
+//    string str1="123";
+//    string str2="123";
+
+    string str1=c1;
+    string str2=c2;
+
+    if (str2==str1)
+        cout<< "str2==str1";
+    else
+        cout<< "str2!=str1";
+}
 
 void testNrvo() {
     cout << "*** 1 ***" << endl;
@@ -355,7 +369,7 @@ void offsetofObject() {
 
 int main() {
     try {
-        testOObject();
+        testStringEqual();
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }

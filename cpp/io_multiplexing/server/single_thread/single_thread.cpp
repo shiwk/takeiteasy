@@ -13,19 +13,12 @@
 #include <future>
 #include <poll.h>
 #include <unordered_map>
+#include <cli.hpp>
 
 #define PORT 1234
 #define BACKLOG 5
 #define MAXDATASIZE 1000
-typedef struct CLIENT {
-    char *name;
-    struct sockaddr_in addr;
-    char *data;
-};
 
-void process_cli(struct CLIENT *client, char *recvbuf, int len, char*, int&);
-
-void savedata(char *recvbuf, int len, char *data);
 
 [[noreturn]] void main_loop(int);
 
@@ -140,7 +133,7 @@ int main() {
                 } else {
                     int sendlen=0;
                     char sendbuf[MAXDATASIZE];
-                    process_cli(&clients[pollfds[i].fd], recvbuf, n, sendbuf, sendlen);
+                    clients[pollfds[i].fd].process_cli(recvbuf, n, sendbuf, sendlen);
                     send(pollfds[i].fd, sendbuf, sendlen, 0);
                 }
 
@@ -148,32 +141,5 @@ int main() {
                 if (--nready <= 0) break;
             }
         }
-    }
-}
-
-void process_cli(struct CLIENT *client, char *recvbuf, int recvlen, char* sendbuf, int& sendlen) {
-    int j;
-    recvbuf[recvlen - 1] = '\0';
-    if (strlen(client->name) == 0) {
-        memcpy(client->name, recvbuf, recvlen);
-        printf("Client's name is %s.\n", client->name);
-        return;
-    }
-
-    /* 打印来自客户端的数据 */
-    printf("Received client( %s ) message: %s\n", client->name, recvbuf);
-    savedata(recvbuf, recvlen, client->data);
-    for (j = 0; j < recvlen - 1; j++) {
-        sendbuf[j] = recvbuf[recvlen - j - 2];
-    }
-    sendbuf[recvlen - 1] = '\0';
-    sendlen = strlen(sendbuf);
-}
-
-void savedata(char *recvbuf, int len, char *data) {
-    int i;
-    int start = strlen(data);
-    for (i = 0; i < len; i++) {
-        data[start + i] = recvbuf[i];
     }
 }

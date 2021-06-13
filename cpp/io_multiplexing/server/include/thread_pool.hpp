@@ -7,11 +7,12 @@
 
 #include <functional>
 #include <future>
-#include <mutex>
+//#include <mutex>
 #include <queue>
 #include <thread>
 #include <utility>
 #include <vector>
+#include <iostream>
 
 #include "task_queue.hpp"
 
@@ -32,9 +33,7 @@ private:
             while (!m_pool->m_shutdown) {
                 {
                     std::unique_lock<std::mutex> lock(m_pool->m_conditional_mutex);
-                    if (m_pool->m_queue.empty()) {
-                        m_pool->m_conditional_lock.wait(lock);
-                    }
+                    m_pool->m_conditional_lock.wait(lock, [&]() { return !m_pool->m_queue.empty(); });
                     dequeued = m_pool->m_queue.dequeue(func);
                 }
                 if (dequeued) {
@@ -45,12 +44,12 @@ private:
     };
 
     bool m_shutdown;
-    SafeQueue <std::function<void()>> m_queue;
+    TaskQueue <std::function<void()>> m_queue;
     std::vector<std::thread> m_threads;
     std::mutex m_conditional_mutex;
     std::condition_variable m_conditional_lock;
 public:
-    ThreadPool(const int n_threads)
+    explicit ThreadPool(const int n_threads)
             : m_threads(std::vector<std::thread>(n_threads)), m_shutdown(false) {
     }
 
@@ -74,9 +73,9 @@ public:
         m_shutdown = true;
         m_conditional_lock.notify_all();
 
-        for (int i = 0; i < m_threads.size(); ++i) {
-            if (m_threads[i].joinable()) {
-                m_threads[i].join();
+        for (auto & m_thread : m_threads) {
+            if (m_thread.joinable()) {
+                m_thread.join();
             }
         }
     }
@@ -93,6 +92,7 @@ public:
         std::function<void()> wrapper_func = [task_ptr]() {
             (*task_ptr)();
         };
+
 
         // Enqueue generic wrapper function
         m_queue.enqueue(wrapper_func);
