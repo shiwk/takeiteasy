@@ -42,15 +42,16 @@ void testSizeOf() {
 void testVirtual() {
     B b;
     A &aa = b;
-    aa.f0(0);
+    aa.f0(0); //a
     A a1 = b;
-    a1.f0(1);
-    a1.print(2);
+    a1.f0(1); //a
+    a1.print(2); //a
 
     A *a = &b;
 
-    a->f(1); // b
-    a->f0(1); // a
+    a->f(1); // B
+    a->f0(1); // A
+
     a->print(2); // a
     a->fun(3); // a
     b.fun("cc"); // b
@@ -65,9 +66,13 @@ void testVirtual() {
 //    b2->print(5);
     B *bb = &b;
     A *a3 = dynamic_cast<A *>(bb); // upcasting is ok
+    A *aaa3 = &b;
+    A *aaa4 = bb;
 
-    std::cout << a3 << std::endl;
-    std::cout << bb << std::endl;
+    std::cout << "a3:" << a3 << std::endl;
+    std::cout << "bb:" << bb << std::endl;
+    std::cout << "aaa3:" << aaa3 << std::endl;
+    std::cout << "aaa4:" << aaa4 << std::endl;
 
     a3->f(5); // b
     a3->f0(6); // a
@@ -75,34 +80,34 @@ void testVirtual() {
 
     A a4;
     B *b3 = dynamic_cast<B *>(&a4);// b3 is NULL
-    std::cout << b3 << std::endl; // 0x0
+    std::cout << "b3: "<< b3 << std::endl; // 0x0
 
     B *b5 = (B *) (&a4);
-    b5->fun1("cc");
+    b5->fun1("cc"); //b
 
     std::cout << "==========" << std::endl;
     C c;
     A *ca = &c;
     B *cb = dynamic_cast<B *>(ca);
-    cb->f(7);
-    cb->f0(7);
-    cb->print(7);
+    cb->f(7); //c
+    cb->f0(7); //b
+    cb->print(7);// b
 
     C *bc = dynamic_cast<C *>(&a4);// bc is NULL
     std::cout << bc << std::endl; // 0x0
 
     std::cout << "==========" << std::endl;
 
-    b.f0(8);
-    b.A::f0(9);
+    b.f0(8); //b
+    b.A::f0(9); //a
 
-    b.f(8);
-    b.A::f(9);
+    b.f(8);//b
+    b.A::f(9);//a
 
-    b.print(10);
-    b.A::print(11);
+    b.print(10);//b
+    b.A::print(11);//a
     B *b1 = &b;
-    b1->print(12);
+    b1->print(12);//b
     std::cout << "==========" << std::endl;
 
     auto a5 = dynamic_cast<A *>(a);
@@ -110,11 +115,12 @@ void testVirtual() {
     std::cout << typeid(b).name() << std::endl;
 
     E e;
-    e.f(10);
-    e.C::f(10);
-    e.D::f(10);
+    e.f(13); //e
+    e.C::f(14); //c
+    e.D::f(15); //d
     B *ae = dynamic_cast<D *>(&e);
-    ae->f(10);
+    std::cout << "ae :" << ae << std::endl;
+    ae->f(16); //e
 
     C *cc = dynamic_cast<C *>(&e); //
     std::cout << "cc :" << cc << std::endl;
@@ -126,8 +132,9 @@ void testVirtual() {
     FF ff;
     FF *ffp = &ff;
     C *cffp = &ff;
-    std::cout << ffp << std::endl;
-    std::cout << cffp << std::endl;
+    cffp->f(17); //ff
+    std::cout << "ffp: " << ffp<< std::endl;
+    std::cout << "cffp: " << cffp << std::endl;
 
 //    GGG *ggg  = dynamic_cast<GGG*>(ff); //FF' is not polymorphic
 //    std::cout << "ff :" << ff << std::endl;
@@ -369,7 +376,7 @@ void offsetofObject() {
 
 int main() {
     try {
-        testStringEqual();
+        testVirtual();
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }

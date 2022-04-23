@@ -26,6 +26,8 @@ struct A {
         std::cout << "A->fun1: "<< i << std::endl;
     }
     A() { std::cout << "A Constructor."<<std::endl; }
+
+    static int x;
 //
 //    ~A() { this->f(); }
 };
@@ -41,6 +43,7 @@ struct B : public A {
     int b = 2;
 
     virtual void fun(char *a) {
+        std::cout<<x<<std::endl;
         std::cout << "B->fun:" << a <<std::endl;
     }
 
@@ -59,24 +62,24 @@ struct B : public A {
 //    ~B() { this->f(); }
 };
 
-struct  C: B{
+struct  C: virtual B{
     void f(int i) override { std::cout << "C->f: "<< i << std::endl; }
     C() { std::cout << "C Constructor."<<std::endl; }
     int c;
 };
 
 
-struct D: B{
+struct D: virtual B{
     void f(int i) override { std::cout << "D->f: "<< i << std::endl; }
     D() { std::cout << "D Constructor."<<std::endl; }
 };
 
-struct E : virtual C, virtual D{
+struct E :  C,  D{
     void f(int i) override { std::cout << "E->f: "<< i << std::endl; }
 };
 
 struct EE : C, D{
-//    void f(int i) override { std::cout << "E->f: "<< i << std::endl; }
+    void f(int i) override { std::cout << "E->f: "<< i << std::endl; }
 };
 #endif //CPP_VIRTUAL_HPP
 
@@ -89,9 +92,9 @@ struct F {
 };
 
 struct FF : virtual C{
-    void f(int i) { std::cout << "F->f: "<< i << std::endl; }
-    virtual void f2(int i) { std::cout << "F->f: "<< i << std::endl; }
-    int ff;
+//    void f(int i) { std::cout << "FF->f: "<< i << std::endl; }
+//    virtual void f2(int i) { std::cout << "F->f: "<< i << std::endl; }
+//    int ff;
 };
 
 struct G : F{
