@@ -273,15 +273,7 @@ void NextPermutation() {
 
 
 int main() {
-    string str;
-    cin>>str;
-    cout << "str: "<< str <<endl;
-
-    int a;
-    cin >> a;
-    cout << "a: "<< a <<endl;
-
-    int b;
-    cin >> b;
-    cout << "b: "<< b <<endl;
+    KthSmallest kthSmallest;
+    vector<vector<int>> v = {{1,5},{12,13}};
+    cout <<kthSmallest.kthSmallest(v,3);
 }
